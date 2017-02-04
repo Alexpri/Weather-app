@@ -1,0 +1,11 @@
+{
+    "services": {
+        "ipInfo": {
+            "url": "http://ipinfo.io"
+        },
+        "openWeatherMap": {
+            "url": "http://api.openweathermap.org",
+            "apiKey": "5cb24a623867f4a86c93b44e9f985e1f"
+        }
+    }
+}
