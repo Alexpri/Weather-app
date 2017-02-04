@@ -7,6 +7,6 @@ export function cityInfo(city) {
 
     return {
         type: LOAD_CITY_INFO,
-        callAPI: `${url}/data/2.5/forecast?q=${city},us&mode=json&appid=${apiKey}`
+        callAPI: `${url}/data/2.5/forecast/daily?q=${city}&units=metric&us&mode=json&appid=${apiKey}`
     }
 }

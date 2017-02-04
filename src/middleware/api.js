@@ -9,6 +9,9 @@ export default store => next => action => {
 		...rest
 	})
 
+	setTimeout(function() {
+		
+
 	fetch(callAPI)
 		.then(response => {
 			response.json().then(function(payload) {
@@ -17,4 +20,5 @@ export default store => next => action => {
 			});
 		})
 		.catch(error => next({type: type + FAIL, error, ...rest}))
+	}, 1000);
 }

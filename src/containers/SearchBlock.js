@@ -11,10 +11,12 @@ class SearchBlock extends Component {
     }
 
     render() {
-        const { loading } = this.props
+        const { cityInfoObj } = this.props
         const { City } = this.state
 
-        if (loading) return <Loader />
+
+        console.log('--searchlock', (cityInfoObj.loading && !cityInfoObj.loaded));
+        if (cityInfoObj.loading && !cityInfoObj.loaded) return <Loader />
 
         return (
             <div>
@@ -22,7 +24,7 @@ class SearchBlock extends Component {
                     <input type="text" name="City" onChange={this.handleChange} value={City} />
                     <button type="submit">Add City</button>
                 </form>
-                <CityInfo />
+                <CityInfo info={cityInfoObj} />
             </div>
         );
     }
@@ -39,4 +41,9 @@ class SearchBlock extends Component {
     }
 }
 
-export default connect(null, { cityInfo })(SearchBlock)
+export default connect((state) => {
+    console.log(state.cityInfo)
+    return {
+        cityInfoObj: state.cityInfo
+    }
+}, { cityInfo })(SearchBlock)
