@@ -1,6 +1,6 @@
 
 export const LOAD_CITY_INFO = 'LOAD_CITY_INFO';
+export const DELETE_CITY_INFO = 'DELETE_CITY_INFO';
 export const START = '_START';
 export const SUCCESS = '_SUCCESS';
 export const FAIL = '_FAIL';
-export const KELVIN = 273.15;

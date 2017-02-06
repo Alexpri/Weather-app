@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
 import { cityInfo } from '../AC/cityInfo'
-import CityInfo from '../components/CityInfo'
+// import CityInfo from '../components/CityInfo'
+import CityInfo from './CityInfo'
 import Loader from '../components/Loader'
 
 class SearchBlock extends Component {
@@ -11,12 +12,12 @@ class SearchBlock extends Component {
     }
 
     render() {
-        const { cityInfoObj } = this.props
+        const { cityInfoObj, loading, loaded } = this.props
         const { City } = this.state
 
+        if (loading && !loaded) return <Loader />
+        const cityList = cityInfoObj.map(item => <article key={item.city.id}><CityInfo info={item} /></article>)
 
-        console.log('--searchlock', (cityInfoObj.loading && !cityInfoObj.loaded));
-        if (cityInfoObj.loading && !cityInfoObj.loaded) return <Loader />
 
         return (
             <div>
@@ -24,7 +25,9 @@ class SearchBlock extends Component {
                     <input type="text" name="City" onChange={this.handleChange} value={City} />
                     <button type="submit">Add City</button>
                 </form>
-                <CityInfo info={cityInfoObj} />
+                <div>
+                    {cityList}
+                </div>
             </div>
         );
     }
@@ -42,8 +45,9 @@ class SearchBlock extends Component {
 }
 
 export default connect((state) => {
-    console.log(state.cityInfo)
     return {
-        cityInfoObj: state.cityInfo
+        loading: state.cityInfo.get('loading'),
+        loaded: state.cityInfo.get('loaded'),
+        cityInfoObj: state.cityInfo.get('entities').valueSeq()
     }
 }, { cityInfo })(SearchBlock)

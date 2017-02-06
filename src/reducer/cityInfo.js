@@ -1,19 +1,38 @@
-import { LOAD_CITY_INFO, START, SUCCESS } from '../constants'
+import { LOAD_CITY_INFO, DELETE_CITY_INFO, START, SUCCESS } from '../constants'
+import { Map, Record } from 'immutable'
+import { recordsFromArray} from './utils'
 
-const cityInfoInitialState = {
+const City = new Record({
+    cityInfo: {}
+})
+
+const defaultCities = recordsFromArray(City, [])
+
+const defaultState = new Map({
     loading: false,
-    loaded: false
-}
+    loaded: false,
+    entities: defaultCities
+})
 
-export default (state = cityInfoInitialState, action) => {
-    const { type, payload } = action
+export default (state = defaultState, action) => {
+    const { type, payload, cityId } = action
 
     switch (type) {
+        case DELETE_CITY_INFO:
+            return state.deleteIn(['entities', cityId])
+
         case LOAD_CITY_INFO + START:
-            return Object.assign({}, state, {loading: true})
+            return state
+                    .set('loading', true)
+
         case LOAD_CITY_INFO + SUCCESS:
-            console.log(payload);
-            return Object.assign({}, state, {loading: false, loaded: true}, payload);
+            return state
+                    .set('loading', false)
+                    .set('loaded', true)
+                    .setIn(['entities', payload.city.id], payload)
+
+            // console.log(payload.city.id, state.toJS());
+            
         default:
             return state
     }
