@@ -10,8 +10,9 @@ class App extends Component {
     return (
       <Provider store={ store }>
         <div className="App">
+          <SearchBlock />
           <MenuItems />
-          <SearchBlock />  
+          {this.props.children}
         </div>
       </Provider>
     );

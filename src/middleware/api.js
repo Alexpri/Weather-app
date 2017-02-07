@@ -9,16 +9,11 @@ export default store => next => action => {
 		...rest
 	})
 
-	setTimeout(function() {
-		
-
 	fetch(callAPI)
 		.then(response => {
 			response.json().then(function(payload) {
-                console.log(payload)
 				next({type: type + SUCCESS, payload, ...rest})
 			});
 		})
 		.catch(error => next({type: type + FAIL, error, ...rest}))
-	}, 1000);
 }
