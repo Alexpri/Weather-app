@@ -16,14 +16,14 @@ class CityInfo extends Component {
             const id = citiesInfoObj.last().city.id
             router.replace(`/${id}`)
         } else if (!cityInfoObj) {
-            router.replace(`/not_found_city`)
+            router.replace(`/`)
         }
     }
 
     componentWillMount() {
         const { router } = this.context
         const { cityInfoObj } = this.props
-        if (!cityInfoObj) router.replace(`/not_found_city`)
+        if (!cityInfoObj) router.replace(`/`)
     }
 
 

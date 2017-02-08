@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { cityInfo } from '../AC/cityInfo'
-// import CityInfo from '../components/CityInfo'
-import CityInfo from './CityInfo'
 import Loader from '../components/Loader'
 
 class SearchBlock extends Component {
+
+    state = {
+        City: ''
+    }
 
     static contextTypes = {
         router: PropTypes.object
@@ -16,17 +18,11 @@ class SearchBlock extends Component {
         if (loaded && active_id) router.replace(`/${active_id}`)
     }
 
-    state = {
-        City: ''
-    }
-
     render() {
         const { loading, loaded } = this.props
         const { City } = this.state
 
         if (loading && !loaded) return <Loader />
-        // const cityList = cityInfoObj.map(item => <article key={item.city.id}><CityInfo info={item} /></article>)
-
 
         return (
             <div>
