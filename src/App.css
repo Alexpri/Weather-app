@@ -18,7 +18,34 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.search-form {
+  padding: 20px 0 40px;
+}
+
+.date-list_wrap {
+  width: 100%;
+  overflow-x: auto;
+  text-align: center;
+}
+
+.date-list {
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  color: rgb(255, 64, 129);
+}
+
+.city-title {
+  font-size: 24px;
+  color: rgb(0, 188, 212);
+}
+
+.date-list li {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 20px;
+}
+
+.date-list h4 {
+  color: rgb(0, 188, 212);
 }

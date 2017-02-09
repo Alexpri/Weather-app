@@ -1,7 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { cityInfo } from '../AC/cityInfo'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 import Loader from '../components/Loader'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import TextField from 'material-ui/TextField';
+
+injectTapEventPlugin();
+
+const styleButton = {
+    verticalAlign: 'middle',
+};
 
 class SearchBlock extends Component {
 
@@ -26,9 +36,11 @@ class SearchBlock extends Component {
 
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" name="City" onChange={this.handleChange} value={City} />
-                    <button type="submit">Add City</button>
+                <form className="search-form" onSubmit={this.handleSubmit}>
+                    <TextField hintText="City" name="City" onChange={this.handleChange} value={City}  />
+                    <FloatingActionButton mini={true} style={styleButton} type="submit">
+                        <ContentAdd />
+                    </FloatingActionButton>
                 </form>
             </div>
         );

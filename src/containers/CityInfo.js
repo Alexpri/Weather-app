@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { weekDay } from './utils'
 import { deleteCityInfo } from '../AC/cityInfo'
+import RaisedButton from 'material-ui/RaisedButton';
 import '../icons/owfont-master/css/owfont-regular.min.css'
 
 class CityInfo extends Component {
@@ -28,12 +29,11 @@ class CityInfo extends Component {
 
 
     render() {
-        const { cityInfoObj } = this.props
-
+        const { cityInfoItem } = this.props
 
         // if (loading && !loaded) return <Loader />
-        if (!cityInfoObj) return <h3>No City choose</h3>
-        const { city, list } = cityInfoObj
+        if (!cityInfoItem) return <h3>No City choose</h3>
+        const { city, list } = cityInfoItem
 
         const listItem = list.map((data) => {
             const currDate = new Date(data.dt * 1000)
@@ -58,25 +58,26 @@ class CityInfo extends Component {
 
         return(
             <div>
-                <h3>{city.name}</h3>
-                <div className="remove-city" onClick={this.handleDelete}>remove</div>
-                <ul className="date-list">
-                    {listItem}
-                </ul>
+                <h3 className="city-title">{city.name}</h3>
+                <div className="remove-city" onClick={this.handleDelete}><RaisedButton label="REMOVE" secondary={true}/></div>
+                <div className="date-list_wrap">
+                    <ul className="date-list">
+                        {listItem}
+                    </ul>
+                </div>
             </div>
         )
     }
 
     handleDelete = () => {
-        const { cityInfoObj, deleteCityInfo } = this.props
-        deleteCityInfo(cityInfoObj.city.id)
+        const { cityInfoItem, deleteCityInfo } = this.props
+        deleteCityInfo(cityInfoItem.city.id)
     }
 }
 export default connect((state, {id}) => {
     return {
         loading: state.cityInfo.get('loading'),
         loaded: state.cityInfo.get('loaded'),
-        citiesInfoObj: state.cityInfo.get('entities').valueSeq(),
-        cityInfoObj: state.cityInfo.getIn(['entities', parseInt(id, 10)])
+        citiesInfoObj: state.cityInfo.get('entities').valueSeq()
     }
 }, { deleteCityInfo })(CityInfo)
