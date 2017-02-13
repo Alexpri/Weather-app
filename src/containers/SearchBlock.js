@@ -32,7 +32,10 @@ class SearchBlock extends Component {
         const { loading, loaded } = this.props
         const { City } = this.state
 
-        if (loading && !loaded) return <Loader />
+        const loader = loading ? !loaded ?
+                                 <Loader />
+                                 : null
+                                 : null
 
         return (
             <div>
@@ -41,6 +44,7 @@ class SearchBlock extends Component {
                     <FloatingActionButton mini={true} style={styleButton} type="submit">
                         <ContentAdd />
                     </FloatingActionButton>
+                    {loader}
                 </form>
             </div>
         );

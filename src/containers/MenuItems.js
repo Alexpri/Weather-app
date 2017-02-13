@@ -7,7 +7,7 @@ import SwipeableViews from 'react-swipeable-views'
 class MenuItems extends Component {
 
     state = {
-      slideIndex: 0
+      slideIndex: null
     }
 
     static contextTypes = {
@@ -21,10 +21,16 @@ class MenuItems extends Component {
 
 
     render() {
-        const { citiesInfoObj } = this.props
+        const { citiesInfoObj, active_id } = this.props
+        let activeIdIndex = {}
         const cityMenuList = citiesInfoObj.map((item, index) => {
+            if (active_id === item.city.id) {
+                activeIdIndex = {'index': index}
+            }
             return <Tab label={item.city.name} value={index} key={item.city.id}/>
         })
+
+        console.log(activeIdIndex)
 
         const citySlidesList = citiesInfoObj.map((item) => {
             return <div key={item.city.id}><CityInfo cityInfoItem={item}/></div>
@@ -36,6 +42,7 @@ class MenuItems extends Component {
                 <Tabs
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
+                    initialSelectedIndex={activeIdIndex.index}
                     >
                     {cityMenuList}
                 </Tabs>
@@ -44,7 +51,7 @@ class MenuItems extends Component {
                     onChangeIndex={this.handleChange}
                     springConfig={{duration: '.5s',easeFunction: 'ease', delay: '0s'}}
                     >
-                    { citySlidesList }
+                    {citySlidesList}
                 </SwipeableViews>
 
             </div>
