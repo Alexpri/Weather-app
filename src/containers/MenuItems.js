@@ -7,42 +7,52 @@ import SwipeableViews from 'react-swipeable-views'
 class MenuItems extends Component {
 
     state = {
-      slideIndex: null
+      slideIndex: 0
     }
 
     static contextTypes = {
         router: PropTypes.object
     }
 
+    componentWillMount() {
+        console.log(555);
+    }
+
+
     componentWillReceiveProps({active_id, loaded}) {
         const { router } = this.context
-        if (loaded && active_id) router.replace(`/${active_id}`)
+        if (loaded && active_id) {
+            // this.forceUpdate();
+            console.log('replace', active_id)
+            router.replace(`/${active_id}`)
+        }
     }
 
 
     render() {
-        const { citiesInfoObj, active_id } = this.props
+        const { citiesInfoObj } = this.props
         let activeIdIndex = {}
         const cityMenuList = citiesInfoObj.map((item, index) => {
-            if (active_id === item.city.id) {
-                activeIdIndex = {'index': index}
-            }
+            // if (active_id === item.city.id) {
+            //     activeIdIndex = Object.assign({}, {'index': index})
+            // }
+            // console.log(444, index)
             return <Tab label={item.city.name} value={index} key={item.city.id}/>
         })
-
-        console.log(activeIdIndex)
 
         const citySlidesList = citiesInfoObj.map((item) => {
             return <div key={item.city.id}><CityInfo cityInfoItem={item}/></div>
         })
 
+        // console.log(this.handleActiveIndex());
+
         
         return(
             <div>
                 <Tabs
+                    initialSelectedIndex={this.handleActiveIndex()}
                     onChange={this.handleChange}
                     value={this.state.slideIndex}
-                    initialSelectedIndex={activeIdIndex.index}
                     >
                     {cityMenuList}
                 </Tabs>
@@ -56,6 +66,16 @@ class MenuItems extends Component {
 
             </div>
         )
+    }
+
+    handleActiveIndex = () =>{
+        let activeIdIndex = this.props.citiesInfoObj.findIndex(item => {
+            return item.city.id  === this.props.active_id;
+        });
+
+        console.log('activeInden', this.state.slideIndex)
+
+        return activeIdIndex ? activeIdIndex : this.state.slideIndex
     }
 
     handleChange = (value) => {

@@ -13,6 +13,7 @@ class CityInfo extends Component {
     
     componentWillReceiveProps({cityInfoObj, citiesInfoObj}) {
         const { router } = this.context
+        console.log('replace to /',cityInfoObj)
         if (!cityInfoObj && citiesInfoObj.last()) {
             const id = citiesInfoObj.last().city.id
             router.replace(`/${id}`)
@@ -25,6 +26,16 @@ class CityInfo extends Component {
         const { router } = this.context
         const { cityInfoObj } = this.props
         if (!cityInfoObj) router.replace(`/`)
+    }
+
+    componentDidMount() {
+        const { router } = this.context
+        const {active_id, loaded} = this.props
+        if (loaded && active_id) {
+            // this.forceUpdate();
+            console.log('replace', active_id)
+            router.replace(`/${active_id}`)
+        }
     }
 
 
@@ -78,6 +89,7 @@ export default connect((state, {id}) => {
     return {
         loading: state.cityInfo.get('loading'),
         loaded: state.cityInfo.get('loaded'),
+        active_id: state.cityInfo.get('active_id'),
         citiesInfoObj: state.cityInfo.get('entities').valueSeq()
     }
 }, { deleteCityInfo })(CityInfo)
