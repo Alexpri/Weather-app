@@ -20,7 +20,9 @@ export default (state = defaultState, action) => {
 
     switch (type) {
         case DELETE_CITY_INFO:
-            return state.deleteIn(['entities', cityId])
+            return state
+                        .deleteIn(['entities', cityId])
+                        .set('active_id', null)
 
         case LOAD_CITY_INFO + START:
             return state

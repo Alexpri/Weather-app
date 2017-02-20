@@ -15,38 +15,36 @@ class MenuItems extends Component {
     }
 
     componentWillMount() {
-        console.log(555);
+        const { router } = this.context
+        if (this.props.citiesInfoObj.size === 0) {
+            router.replace('/')
+        }
     }
 
 
-    componentWillReceiveProps({active_id, loaded}) {
+    componentWillReceiveProps({active_id, loaded, citiesInfoObj}) {
         const { router } = this.context
         if (loaded && active_id) {
-            // this.forceUpdate();
-            console.log('replace', active_id)
             router.replace(`/${active_id}`)
+        } else if (citiesInfoObj.size === 0) {
+            router.replace('/')
         }
     }
 
 
     render() {
         const { citiesInfoObj } = this.props
-        let activeIdIndex = {}
+        
+        if (citiesInfoObj.size === 0) return <h3>Please, input your City</h3>
+
         const cityMenuList = citiesInfoObj.map((item, index) => {
-            // if (active_id === item.city.id) {
-            //     activeIdIndex = Object.assign({}, {'index': index})
-            // }
-            // console.log(444, index)
-            return <Tab label={item.city.name} value={index} key={item.city.id}/>
+            return <Tab label={item.city.name} data-id={item.city.id} value={index} key={item.city.id} onActive={this.onActive}/>
         })
 
         const citySlidesList = citiesInfoObj.map((item) => {
             return <div key={item.city.id}><CityInfo cityInfoItem={item}/></div>
         })
 
-        // console.log(this.handleActiveIndex());
-
-        
         return(
             <div>
                 <Tabs
@@ -68,22 +66,22 @@ class MenuItems extends Component {
         )
     }
 
+    onActive = (value) => {
+        const { router } = this.context
+        router.replace(`/${value.props["data-id"]}`)
+    }
+
     handleActiveIndex = () =>{
-        let activeIdIndex = this.props.citiesInfoObj.findIndex(item => {
+        const activeIdIndex = this.props.citiesInfoObj.findIndex(item => {
             return item.city.id  === this.props.active_id;
         });
-
-        console.log('activeInden', this.state.slideIndex)
-
-        return activeIdIndex ? activeIdIndex : this.state.slideIndex
+        
+        return (activeIdIndex === -1 || activeIdIndex === 0) ? 0 : activeIdIndex
     }
 
     handleChange = (value) => {
-        const { router } = this.context
-        const activeId = this.props.active_id
-        router.replace(`/${activeId}`)
         this.setState({
-            slideIndex: value,
+            slideIndex: value
         })
     }
 }

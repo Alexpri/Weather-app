@@ -11,38 +11,17 @@ class CityInfo extends Component {
         router: PropTypes.object
     }
     
-    componentWillReceiveProps({cityInfoObj, citiesInfoObj}) {
+    componentWillReceiveProps({cityInfoItem, citiesInfoObj}) {
         const { router } = this.context
-        console.log('replace to /',cityInfoObj)
-        if (!cityInfoObj && citiesInfoObj.last()) {
+        if (!cityInfoItem && citiesInfoObj.last()) {
             const id = citiesInfoObj.last().city.id
             router.replace(`/${id}`)
-        } else if (!cityInfoObj) {
-            router.replace(`/`)
         }
     }
-
-    componentWillMount() {
-        const { router } = this.context
-        const { cityInfoObj } = this.props
-        if (!cityInfoObj) router.replace(`/`)
-    }
-
-    componentDidMount() {
-        const { router } = this.context
-        const {active_id, loaded} = this.props
-        if (loaded && active_id) {
-            // this.forceUpdate();
-            console.log('replace', active_id)
-            router.replace(`/${active_id}`)
-        }
-    }
-
 
     render() {
         const { cityInfoItem } = this.props
 
-        // if (loading && !loaded) return <Loader />
         if (!cityInfoItem) return <h3>No City choose</h3>
         const { city, list } = cityInfoItem
 
